@@ -1,35 +1,72 @@
 package hust.soict.dsai.aims.store.Store;
+import java.util.ArrayList;
+
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Media;
 
 public class Store {
-	private DigitalVideoDisc itemsInStore[] = new DigitalVideoDisc[20];
-	private int qtyStored = 0;
+	private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
 	
-	public void addDVD(DigitalVideoDisc disc) {
-		if (qtyStored >= 20) {
-			System.out.println("Your store is fulled");
-		} else {
-			itemsInStore[qtyStored] = disc;
-			System.out.println("add successfull!");
-			qtyStored++;
+	public void addMedia(Media m) {
+		for (Media media : itemsOrdered) {
+			if (media.equals(m)) {
+				System.out.println("Item exited");
+				return;
+			}
 		}
+		itemsOrdered.add(m);
+		System.out.println("Added");
 	}
 	
-	public void removeDVD(DigitalVideoDisc disc) {
-		if (qtyStored == 0) {
-			System.out.println("Your cart is empty");
-		} else {
-			for (int i = 0; i < qtyStored; i++) {
-				if (itemsInStore[i] == disc) {
-					for (int j = i; j < qtyStored - 1; j++) {
-						itemsInStore[j] = itemsInStore[j + 1];
-					}
-					break;
-				}
+	public Store() {
+		super();
+	}
+	
+	public void removeMedia(Media m) {
+		for (Media media : itemsOrdered) {
+			if (media.equals(m)) {
+				itemsOrdered.remove(m);
+				System.out.println("Removed");
+				return;
 			}
-			System.out.println("remove successfull!");
-			qtyStored--;
 		}
+
+		System.out.println("Item not exit");
+		
+	}
+	
+	public int currentId() {
+		return this.itemsOrdered.size();
+	}
+	
+	public Media findById(int id) {
+		for (Media media : itemsOrdered) {
+			if (media.getId()==id) {
+				return media;
+			}
+		}
+		System.out.println("Not found");
+		return null;
+		
+	}
+	
+	public Media findByTitle(String title) {
+		for (Media media : itemsOrdered) {
+			if (media.getTitle().equals(title)) {
+				return media;
+			}
+		}
+		System.out.println("Not found");
+		return null;
+		
+	}
+	
+	public void displayStore() {
+		if(itemsOrdered.size()>0)
+		for (Media media : itemsOrdered) {
+			System.out.println(media.toString());
+		}
+		else System.out.println("Store is empty");
 	}
 	
 }
